@@ -1,0 +1,29 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "es2015",
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "es6",
+    "lib": [ "es6", "dom", "dom.iterable", "es2015.collection", "es2017.object", "es2017", "es2017.typedarrays" ],
+    "outDir": "wwwroot/js",
+    "rootDir": "wwwroot/ts",
+    "declaration": true,
+    "declarationDir": "wwwroot/types"
+  },
+  "include": [
+    "wwwroot/ts/**/*.ts"
+  ],
+  "exclude": [
+    "wwwroot/css",
+    "wwwroot/js",
+    "wwwroot/lib",
+    "wwwroot/types",
+    "node_modules"
+  ]
+}

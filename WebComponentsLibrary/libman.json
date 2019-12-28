@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "reflect-metadata@0.1.13",
+      "destination": "wwwroot/lib/reflect-metadata/"
+    },
+    {
+      "library": "@polymer/polymer@3.3.1",
+      "destination": "wwwroot/lib/@polymer/polymer/"
+    },
+    {
+      "library": "@webcomponents/shadycss@1.9.3",
+      "destination": "wwwroot/lib/@webcomponents/shadycss/"
+    },
+    {
+      "library": "@polymer/decorators@3.0.0",
+      "destination": "wwwroot/lib/@polymer/decorators/"
+    },
+    {
+      "library": "@microsoft/signalr@3.1.0",
+      "destination": "wwwroot/lib/@microsoft/signalr/"
+    }
+  ]
+}

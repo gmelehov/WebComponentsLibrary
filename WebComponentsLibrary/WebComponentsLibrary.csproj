@@ -1,0 +1,193 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <AssemblyName>WebComponentsLibrary</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TS\DMElements\DMMyConnection.ts" />
+    <None Remove="TS\DMElements\DMPage.ts" />
+    <None Remove="TS\Interfaces\targeting.ts" />
+    <None Remove="TS\Utilities\changePolymerElementTemplate.ts" />
+    <None Remove="TS\Utilities\composePolymerDomRepeatTemplate.ts" />
+    <None Remove="TS\Utilities\createPolymerElement.ts" />
+    <None Remove="TS\Utilities\getHTMLTemplateFromStrings.ts" />
+    <None Remove="TS\Utilities\mergeHTMLTemplates.ts" />
+    <None Remove="TS\ZElements\ZBaseElement\ZBaseElement.ts" />
+    <None Remove="TS\ZElements\ZButton\ZButton.ts" />
+    <None Remove="TS\ZElements\ZIconButton\ZIconButton.ts" />
+    <None Remove="TS\ZElements\ZIconSet\ZIconSet.ts" />
+    <None Remove="TS\ZElements\ZRipple\ZRipple.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="TS\Classes\BaseEventDispatcher.ts" />
+    <TypeScriptCompile Remove="TS\Classes\CustomEventDescriptor.ts" />
+    <TypeScriptCompile Remove="TS\Classes\CustomEventHandler.ts" />
+    <TypeScriptCompile Remove="TS\Classes\RuleChecker.ts" />
+    <TypeScriptCompile Remove="TS\Classes\Targeter.ts" />
+    <TypeScriptCompile Remove="TS\Classes\ZPalette.ts" />
+    <TypeScriptCompile Remove="TS\Enums\consts.ts" />
+    <TypeScriptCompile Remove="TS\Enums\enums.ts" />
+    <TypeScriptCompile Remove="TS\Interfaces\interfaces.ts" />
+    <TypeScriptCompile Remove="TS\Interfaces\listening.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\alignElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\arrayIncludes.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\arrayPush.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\assign.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\assignDeep.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseDifference.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseFlatten.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseGet.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseMultiSortBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseSortBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\baseToString.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\capitalize.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\castPath.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\changeElementTemplate.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\checkComplexRegexp.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\checkIf.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\clamp.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\composeCustomEvent.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\convertMonth.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\create.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\dropDownElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findElements.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findFirstElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findItems.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findLastElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findNextElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findNextElements.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findParentElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findPreviousElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findSiblingElements.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\findTarget.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\fire.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\fireCustomEvent.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\flatten.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\get.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getAllNext.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getAllPrevious.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getAllSiblings.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getBoundings.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getElements.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getEnumTag.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getFullHeight.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getHeight.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getMargin.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getMetadata.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getNext.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getNodes.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getPadding.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getPrevious.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getPrototype.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getStyle.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getStyles.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getTag.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\getWidth.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\hasChildren.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isArguments.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isArrayLike.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isArrayLikeObject.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isBetween.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isDate.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isDateLike.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isEquivalent.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isFinite.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isFunction.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isHostObject.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isKey.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isLength.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isNaN.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isNil.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isNumber.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isObject.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isObjectLike.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isPlainObject.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isString.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isSymbol.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isTypedArray.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isUndefined.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isUseful.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\isVoid.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\iteratorToArray.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\logicUtils.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\matches.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\mixin.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\moveElementToPosition.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\multiSortBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\multiSortElementsBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\parallel.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\pick.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\raiseUpElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\removeSpecialSymbols.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\removeStyle.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\RGBToHSL.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\scrMoveElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\scrResizeElement.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\setMetadata.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\setStyle.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\setStyles.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\setToArray.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\sortBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\sortElementsBy.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\stringToPath.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\stringToTargetDefinitions.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toArray.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toDate.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toDOMIdentity.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toDOMPredicate.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toFinite.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toInteger.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toKebabCase.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toKey.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toSource.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toSpelledValue.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\toString.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\trimLeft.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\trimRight.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedBottom.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedHorizontally.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedLeft.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedRight.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedTop.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\willBleedVertically.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\xnor.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\xor.ts" />
+    <TypeScriptCompile Remove="TS\Utilities\zipObject.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+    <TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
+  </PropertyGroup>
+
+</Project>
