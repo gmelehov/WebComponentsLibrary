@@ -1,5 +1,10 @@
 import { PolymerElement } from '../../../lib/@polymer/polymer/polymer-element.js';
 import { RippleDensity } from '../../Interfaces/interfaces.js';
+/**
+ *
+ * @customElement
+ * @polymer
+ */
 export declare class ZRipple extends PolymerElement {
     static get template(): HTMLTemplateElement;
     constructor();

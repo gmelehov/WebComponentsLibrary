@@ -33,13 +33,16 @@ export class ZBaseElement extends PolymerElement
 
 
 
+
+
   /** Путь к файлу, содержащему определения стилей для этого компонента. */
   @property({ notify: true })
-  stylesSrc: string = '';
+  stylesSrc: string;
+
 
   /** Путь к файлу, содержащему HTML-разметку для этого элемента. */
   @property({ notify: true })
-  domSrc: string = '';
+  domSrc: string;
 
 
 
@@ -52,6 +55,7 @@ export class ZBaseElement extends PolymerElement
   {
     const fetchedStyles = styles != null ? (await fetch(this.stylesSrc).then(async response => await response.text()).catch(e => '') || styles) : '';
     const fetchedDom = dom != null ? (await fetch(this.domSrc).then(async response => await response.text()).catch(e => '') || dom) : '';
+
     let tmpl = getHTMLTemplateFromStrings(['<style>', fetchedStyles, '</style>', fetchedDom]);
     changeElementTemplate(this, tmpl);
   };

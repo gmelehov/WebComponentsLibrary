@@ -10,35 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var ZIconButton_1;
 import { PolymerElement, html } from '../../../lib/@polymer/polymer/polymer-element.js';
 import * as Poly from '../../../lib/@polymer/decorators/lib/decorators.js';
-import { Targeter } from '../../Classes/Targeter.js';
 import { fireCustomEvent } from '../../Utilities/fireCustomEvent.js';
 import { EventType } from '../../Enums/enums.js';
-import { stringToTargetDefinitions } from '../../Utilities/stringToTargetDefinitions.js';
+import { TargeterMixin } from '../../Mixins/TargeterMixin.js';
 const { customElement, property, observe } = Poly;
-/** Кнопка-иконка */
-let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
+/**
+ * Кнопка-иконка
+ * @customElement
+ * @polymer
+ */
+let ZIconButton = ZIconButton_1 = class ZIconButton extends TargeterMixin(PolymerElement) {
     constructor() {
         super();
         /** Состояние элемента "отмечено/не отмечено" */
         this.active = false;
-        /** Конфигурация для командного хелпера */
-        this.triggers = '';
-        /** Относительные размеры кнопки */
+        /** Визуальные размеры кнопки */
         this.size = 24;
-        /**
-         * При установке в true элемент не может быть выбран/активирован/задействован
-         * При установке в false (по умолчанию) элемент может быть выбран/активирован/задействован
-         */
-        this.disabled = false;
         this.hide = false;
         this.aIcon = '';
         this.aColor = '';
         this.iIcon = '';
         this.iColor = 'grey-600';
-        this.disabled = false;
         this.color = this.iColor;
-        this.triggers = '';
-        this.targeter = new Targeter();
     }
     static get _styleTemplate() {
         return html `
@@ -46,6 +39,24 @@ let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
 			:host { display: inline-flex; line-height: 1; border-radius: 50%; vertical-align: middle; }
 			:host(:focus) { outline: none; background-color: hsla(0, 0%, 0%, 0.06); }
 			:host([disabled]) { pointer-events: none !important; filter: grayscale(100%); color: hsla(0, 0%, 0%, 0.23) !important; opacity: 0.36; }
+      :host([size="14"]) { width: 14px; height: 14px; }
+      :host([size="16"]) { width: 16px; height: 16px; }
+      :host([size="18"]) { width: 18px; height: 18px; }
+      :host([size="20"]) { width: 20px; height: 20px; }
+      :host([size="22"]) { width: 22px; height: 22px; }
+      :host([size="24"]) { width: 24px; height: 24px; }
+      :host([size="26"]) { width: 26px; height: 26px; }
+      :host([size="28"]) { width: 28px; height: 28px; }
+      :host([size="30"]) { width: 30px; height: 30px; }
+      :host([size="32"]) { width: 32px; height: 32px; }
+      :host([size="34"]) { width: 34px; height: 34px; }
+      :host([size="36"]) { width: 36px; height: 36px; }
+      :host([size="38"]) { width: 38px; height: 38px; }
+      :host([size="40"]) { width: 40px; height: 40px; }
+      :host([size="42"]) { width: 42px; height: 42px; }
+      :host([size="44"]) { width: 44px; height: 44px; }
+      :host([size="46"]) { width: 46px; height: 46px; }
+      :host([size="48"]) { width: 48px; height: 48px; }
 			:host(:not([disabled])) { pointer-events: auto; opacity: 1; }
 			:host div { display: block; cursor: pointer; position: relative; border-radius: 50%; align-items: center; padding: 0; width: 100%; height: 100%; }	
 			:host z-icon { position: absolute; left: 0; top: 0; right: 0; bottom: 0; transition: var(--z-half-medium-transition); transform-origin: center center; transition-delay: 0s; }
@@ -59,7 +70,7 @@ let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
     ;
     static get _htmlTemplate() {
         return html `
-		<div size$="[[size]]">
+		<div>
 			<z-icon name="{{aIcon}}" color="{{aColor}}" size="{{size}}"></z-icon>
 			<z-icon name="{{iIcon}}" color="{{iColor}}" size="{{size}}"></z-icon>
 			<z-ripple color="{{color}}" density="normal"></z-ripple>
@@ -96,6 +107,7 @@ let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
             active: this.active,
             size: this.size,
             disabled: this.disabled,
+            href: this.href,
             triggers: this.triggers,
             targeter: this.targeter
         };
@@ -121,26 +133,6 @@ let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
     }
     ;
     /**
-     * Обозреватель изменения конфигурации командного хелпера
-     * Обновляет конфигурацию командного хелпера
-     * @param now новая конфигурация
-     * @param before предыдущая конфигурация
-     */
-    triggersChanged(now, before) {
-        if (now !== null && now !== undefined) {
-            this.targeter.removeAll();
-            setTimeout(() => {
-                if (now !== '') {
-                    let arr = stringToTargetDefinitions(now);
-                    this.targeter.addMany(arr);
-                }
-                ;
-            }, 0);
-        }
-        ;
-    }
-    ;
-    /**
      * Обозреватель изменения свойства active
      * @param newActive новое значение свойства
      * @param oldActive предыдущее значение свойства
@@ -158,12 +150,6 @@ let ZIconButton = ZIconButton_1 = class ZIconButton extends PolymerElement {
      */
     propsChanged(acolor, icolor, active) {
         this.color = (active) ? acolor : icolor;
-    }
-    ;
-    /** Активирует командный хелпер */
-    exec() {
-        if (this.triggers && this.targeter && this.disabled === false)
-            this.targeter.exec();
     }
     ;
 };
@@ -192,17 +178,9 @@ __decorate([
     __metadata("design:type", Boolean)
 ], ZIconButton.prototype, "active", void 0);
 __decorate([
-    property({ notify: true, observer: ZIconButton_1.prototype.triggersChanged }),
-    __metadata("design:type", String)
-], ZIconButton.prototype, "triggers", void 0);
-__decorate([
     property({ reflectToAttribute: true, notify: true }),
     __metadata("design:type", Number)
 ], ZIconButton.prototype, "size", void 0);
-__decorate([
-    property({ reflectToAttribute: true, notify: true }),
-    __metadata("design:type", Boolean)
-], ZIconButton.prototype, "disabled", void 0);
 __decorate([
     property({ reflectToAttribute: true, notify: true }),
     __metadata("design:type", Boolean)

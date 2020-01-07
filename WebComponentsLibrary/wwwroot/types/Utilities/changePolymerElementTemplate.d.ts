@@ -1,4 +1,4 @@
-import { PolymerElement } from 'lib/@polymer/polymer/polymer-element.js';
+import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
 /**
  * Динамически заменяет текущий инстанс HTML-шаблона
  * в указанном Polymer-элементе на его новый подготовленный экземпляр.

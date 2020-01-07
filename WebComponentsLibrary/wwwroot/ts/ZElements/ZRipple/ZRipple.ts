@@ -15,7 +15,11 @@ const { customElement, property, observe } = Poly;
 
 
 
-
+/**
+ * 
+ * @customElement
+ * @polymer
+ */
 @customElement('z-ripple')
 export class ZRipple extends PolymerElement
 {

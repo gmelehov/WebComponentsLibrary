@@ -1,4 +1,4 @@
-import 'lib/reflect-metadata/Reflect.js';
+import '../../lib/reflect-metadata/Reflect.js';
 export function getMetadata(obj) {
     let ret = new Array();
     let metakeys = Reflect.getMetadataKeys(obj);

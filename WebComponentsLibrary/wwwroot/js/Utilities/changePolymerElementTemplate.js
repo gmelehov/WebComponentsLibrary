@@ -1,4 +1,4 @@
-import { microTask } from 'lib/@polymer/polymer/lib/utils/async.js';
+import { microTask } from '../../lib/@polymer/polymer/lib/utils/async.js';
 /**
  * Динамически заменяет текущий инстанс HTML-шаблона
  * в указанном Polymer-элементе на его новый подготовленный экземпляр.

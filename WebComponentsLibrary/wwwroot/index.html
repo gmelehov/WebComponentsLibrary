@@ -3,16 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <title></title>
-
   <link rel="stylesheet" href="site.css" />
 
   <script src="/lib/@webcomponents/shadycss/entrypoints/custom-style-interface.js" type="module"></script>
 
+  <script src="/js/zlib.js" type="module"></script>
+
+
+  <script src="/js/ZElements/ZBaseElement/ZBaseElement.js" type="module"></script>
   <script src="/js/ZElements/ZIconSet/ZIconSet.js" type="module"></script>
   <script src="/js/ZElements/ZRipple/ZRipple.js" type="module"></script>
   <script src="/js/ZElements/ZIcon/ZIcon.js" type="module" defer></script>
   <script src="/js/ZElements/ZIconButton/ZIconButton.js" type="module" defer></script>
   <script src="/js/ZElements/ZButton/ZButton.js" type="module" defer></script>
+  <script src="/js/ZElements/ZPaper/ZPaper.js" type="module" defer></script>
+  <script src="/js/ZElements/ZDivider/ZDivider.js" type="module" defer></script>
+  <script src="/js/ZElements/ZOption/ZOption.js" type="module"></script>
+  <script src="/js/ZElements/ZOverlay/ZOverlay.js" type="module"></script>
+  <script src="/js/ZElements/ZSubheader/ZSubheader.js" type="module" defer></script>
+  <script src="/js/ZElements/ZCollapser/ZCollapser.js" type="module" defer></script>
+  <script src="/js/ZElements/ZExpandable/ZExpandable.js" type="module" defer></script>
+  <script src="/js/ZElements/ZMenu/ZMenu.js" type="module"></script>
+  <script src="/js/ZElements/ZSubmenu/ZSubmenu.js" type="module"></script>
+  <script src="/js/ZElements/ZExpander/ZExpander.js" type="module" defer></script>
+  <script src="/js/ZElements/ZExpanders/ZExpanders.js" type="module" defer></script>
 
 
 </head>
@@ -22,8 +36,60 @@
 
   <z-icon name="settings" size="24"></z-icon>
   <z-icon-button i-color="red-500" i-icon="more-vert"></z-icon-button>
-  <z-button label="Button" color="indigo-400" accented></z-button>
+  <z-button id="ZBtn1" label="Button" icon="favorite" icon-size="18" color="indigo-400" accented triggers="ZMenu1.toggle()"></z-button>
+  <z-button id="ZBtn2" color="green-700" accented h="42">Button 2<z-icon name="settings" size="22"></z-icon>Icon</z-button>
 
+
+  <z-expanders style="margin: 20px; height: 50vh;" full-height>
+    <z-expander id="zexp1" name="Expander 1" popout icon="grade" color="indigo-400">
+      <z-paper padding="12" z="0">
+        <ul>
+          <li>qwerty</li>
+          <li>qwerty</li>
+          <li>qwerty</li>
+          <li>qwerty</li>
+          <li>qwerty</li>
+          <li>qwerty</li>
+          <li>qwerty</li>
+        </ul>
+      </z-paper>
+    </z-expander>
+    <z-expander id="zexp2" name="Expander 2" popout icon="favorite" color="red-600">
+      <z-paper padding="12" z="0">
+        <ul>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+          <li>asdfgh</li>
+        </ul>
+      </z-paper>
+    </z-expander>
+  </z-expanders>
+  
+
+
+  <div style="width: 100%; height: 35vh;">
+    <z-paper z="1" b-color="white" style="position: absolute; width: 100px; height: 100px;"></z-paper>
+  </div>
+
+
+
+
+  <z-menu id="ZMenu1" target="ZBtn1">
+    <z-option name="Option simple 1" type="simple"></z-option>
+    <z-option name="Option simple 2" type="simple"></z-option>
+    <z-option name="Option toggle 1" type="toggle"></z-option>
+    <z-option name="Option toggle 2" type="toggle"></z-option>
+    <z-option name="Option toggle 3" type="toggle"></z-option>
+    <z-submenu name="Submenu 1">
+      <z-option name="Option simple 3" type="simple"></z-option>
+      <z-option name="Option simple 4" type="simple" hide-menu></z-option>
+      <z-option name="Option toggle 4" type="toggle"></z-option>
+    </z-submenu>
+  </z-menu>
 
 </body>
 </html>

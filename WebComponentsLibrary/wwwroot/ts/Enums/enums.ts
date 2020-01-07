@@ -210,12 +210,24 @@ export enum EventType
 	optCreated = "opt-created",
 	optRemoved = "opt-removed",
 	optMoved = "opt-moved",
+
+
 	optionActivated = "option-activated",
 	optionChanged = "option-changed",
 	optionSelected = "option-selected",
+
+
+
 	optionCreated = "option-created",
+
+
 	optionRemoved = "option-removed",
+
+
 	optionMoved = "option-moved",
+
+
+
 	buttonActivated = "button-activated",
 	dialogShown = "dialog-shown",
 	dialogHidden = "dialog-hidden",
@@ -234,6 +246,15 @@ export enum EventType
 	ironAjaxRequest = "iron-ajax-request",
 	ironAjaxResponse = "iron-ajax-response",
 	ironAjaxError = "iron-ajax-error",
+
+
+
+	/** Элемент z-collapser изменил состояние opened */
+	collapserToggled = "collapser-toggled",
+	/** Элемент z-expander изменил состояние opened */
+	expanderToggled = "expander-toggled",
+
+
 
 }
 
@@ -297,39 +318,6 @@ export enum EventSubType
 
 
 
-/** Грамматические падежи */
-export enum GCase
-{
-	/** именительный */
-	nom = 0,
-	/** родительный */
-	gen = 1,
-	/** дательный */
-	dat = 2,
-	/** винительный */
-	acc = 3,
-	/** творительный */
-	ins = 4,
-	/** предложный */
-	loc = 5
-}
-
-
-
-
-/** Грамматический род / пол человека */
-export enum Gender
-{
-	/** не указано */
-	No = "No",
-	/** мужской */
-	M = "M",
-	/** женский */
-	F = "F"
-}
-
-
-
 
 /** Наименования предикатов для вычисления правил */
 export enum RulePredicate
@@ -369,44 +357,72 @@ export enum LogicOper
 
 
 
+
+
+
+
+
 /** Наименования ролей для элемента-опции */
 export enum OptionRole
 {
-
 	/**
 	 * простая опция
 	 * отображение основной иконки перед своим текстом
 	 */
 	simple = 'simple',
-
 	/**
 	 * опция-отметка
 	 * отображение дополнительной иконки, обозначающей текущее состояние опции "выбрано/не выбрано"
 	 * дополнительная иконка отображается после основного текста
-	 * взаимоисключающие роли: {@link ODOptionRole.sub}, {@link ODOptionRole.dropdown}
+	 * взаимоисключающие роли: {@link OptionRole.sub}, {@link OptionRole.dropdown}
 	 */
 	toggle = 'toggle',
-
 	/**
 	 * опция-переключатель вложенного меню
 	 * отображение дополнительной иконки (стрелка вправо) для вызова вложенного меню
 	 * дополнительная иконка отображается после основного текста
-	 * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link ODOptionRole.dropdown}
+	 * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link OptionRole.dropdown}
 	 */
 	sub = 'sub',
-
 	/**
 	 * опция-переключатель выпадающего списка
 	 * отображение дополнительной иконки (стрелка вниз) для раскрытия выпадающего списка
 	 * дополнительная иконка отображается после основного текста
-	 * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link ODOptionRole.sub}
+	 * взаимоисключающие роли: {@link OptionRole.toggle}, {@link OptionRole.sub}
 	 */
 	dropdown = 'dropdown',
 
-
 	collapser = 'collapser',
-
 }
+
+
+
+
+
+
+
+
+/** Поведение основного меню и вложенных подменю при активации одной из дочерних опций */
+export enum MenuBehaviourOnClick
+{
+	/** Не закрывать основное и вложенные меню */
+	keepAll = 'keepAll',
+	/** Закрывать ближайшее родительское меню */
+	hideParent = 'hideParent',
+	/** Закрывать все родительские меню, включая основное */
+	hideAll = 'hideAll'
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

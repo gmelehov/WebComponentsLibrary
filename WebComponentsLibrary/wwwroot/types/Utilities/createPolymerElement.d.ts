@@ -1,4 +1,4 @@
-import { PolymerElement } from 'lib/@polymer/polymer/polymer-element.js';
+import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
 /**
  *
  * @param base

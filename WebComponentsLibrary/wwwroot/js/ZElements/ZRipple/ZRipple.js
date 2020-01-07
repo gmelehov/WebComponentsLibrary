@@ -25,6 +25,11 @@ import { getBoundings } from '../../Utilities/getBoundings.js';
 import { isVoid } from '../../Utilities/isVoid.js';
 import { ZPalette } from '../../Classes/ZPalette.js';
 const { customElement, property, observe } = Poly;
+/**
+ *
+ * @customElement
+ * @polymer
+ */
 let ZRipple = ZRipple_1 = class ZRipple extends PolymerElement {
     constructor() {
         super();

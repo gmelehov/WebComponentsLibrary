@@ -10,16 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var ZButton_1;
 import { PolymerElement, html } from '../../../lib/@polymer/polymer/polymer-element.js';
 import * as Poly from '../../../lib/@polymer/decorators/lib/decorators.js';
-import { Targeter } from '../../Classes/Targeter.js';
 import { fireCustomEvent } from '../../Utilities/fireCustomEvent.js';
 import { EventType, KeyCode } from '../../Enums/enums.js';
-import { stringToTargetDefinitions } from '../../Utilities/stringToTargetDefinitions.js';
 import { afterNextRender } from '../../../lib/@polymer/polymer/lib/utils/render-status.js';
 import { ZPalette } from '../../Classes/ZPalette.js';
 import { getWidth } from '../../Utilities/getWidth.js';
 import { getHeight } from '../../Utilities/getHeight.js';
+import { TargeterMixin } from '../../Mixins/TargeterMixin.js';
 const { customElement, property, observe } = Poly;
-let ZButton = ZButton_1 = class ZButton extends PolymerElement {
+/**
+ * Кнопка
+ * @customElement
+ * @polymer
+ */
+let ZButton = ZButton_1 = class ZButton extends TargeterMixin(PolymerElement) {
     constructor() {
         super();
         /** Иконка, отображаемая перед текстом кнопки */
@@ -28,8 +32,6 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
         this.label = '';
         /** Высота кнопки в пикселях */
         this.h = 28;
-        /** Визуальные размеры иконки */
-        this.iconSize = 24;
         /**
          * Цвет шрифта кнопки
          * Указанный цвет применяется также к иконке, отображаемой перед текстом кнопки и к эффектам элемента z-ripple
@@ -40,36 +42,17 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
         /** Если true - кнопка имеет фоновую заливку в 100% от основного своего цвета (цвета шрифта); если false (по умолчанию) - кнопка имеет полностью прозрачный фон */
         this.filled = false;
         this.z = 0;
-        /**
-         * При установке в true отключает эффект ripple при нажатии кнопки (соответствующее действие при нажатии кнопки выполняется без задержки)
-         * При установке в false (по умолчанию) включает эффект ripple при нажатии кнопки (соответствующее действие при нажатии кнопки выполняется с небольшой задержкой)
-         */
-        this.noTap = false;
-        /** Ссылка, переход к которой будет осуществлен после активации элемента */
-        this.href = '';
-        /**
-         * При установке в true элемент не может быть выбран/активирован/задействован
-         * При установке в false (по умолчанию) элемент может быть выбран/активирован/задействован
-         */
-        this.disabled = false;
-        /** Строка-конфигуратор командного хелпера */
-        this.triggers = '';
-        /** Хелпер для взаимодействия с элементами-получателями команд */
-        this.targeter = new Targeter();
         this.icon = '';
         this.label = '';
         this.h = 28;
-        this.iconSize = 24;
+        //this.iconSize = 24;
         this.color = '';
-        this.disabled = false;
-        this.noTap = false;
     }
     static get _styleTemplate() {
         return html `
 		<style>
 			:host { border-radius: 2px; margin: 3px 0; padding: 0 6px; font-size: 14px; min-width: 36px; text-align: center; position: relative; display: inline-block; cursor: pointer; user-select: none; vertical-align: middle; --curr-color: currentColor; }
 			:host(:hover), :host(:focus) { outline: none; }
-
       :host([h="14"]) { height: 14px; }
       :host([h="16"]) { height: 16px; }
       :host([h="18"]) { height: 18px; }
@@ -80,6 +63,14 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
       :host([h="28"]) { height: 28px; }
       :host([h="30"]) { height: 30px; }
       :host([h="32"]) { height: 32px; }
+      :host([h="34"]) { height: 34px; }
+      :host([h="36"]) { height: 36px; }
+      :host([h="38"]) { height: 38px; }
+      :host([h="40"]) { height: 40px; }
+      :host([h="42"]) { height: 42px; }
+      :host([h="44"]) { height: 44px; }
+      :host([h="46"]) { height: 46px; }
+      :host([h="48"]) { height: 48px; }
 
 			:host([accented]) z-ripple:not(.rippling) { background-color: var(--curr-color); filter: opacity(0.12); }
 			:host(:hover:not([disabled]):not([accented])) z-ripple:not(.rippling), :host(:focus:not([disabled]):not([accented])) z-ripple:not(.rippling) { outline: none; background-color: var(--curr-color); filter: opacity(0.16); }
@@ -89,6 +80,7 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
 			:host([disabled]) { pointer-events: none !important; opacity: 0.45; }
       :host > div > z-icon { padding: 0; }
 			.label { padding: 0 3px; color: var(--curr-color); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+      .label:empty { padding: 0; }
 			:host > div { display: flex; align-items: center; height: inherit; line-height: inherit; color: var(--curr-color); user-select: none; justify-content: center; }
 		</style>`;
     }
@@ -98,6 +90,7 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
 		<div>
 			<z-icon name="[[icon]]" size="{{iconSize}}" color="{{color}}" disabled="[[disabled]]"></z-icon>
       <div class="label">[[label]]</div>
+      <slot></slot>
 		</div>
 		<z-ripple color="{{color}}" no-tap="{{noTap}}" density="normal"></z-ripple>`;
     }
@@ -142,37 +135,6 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
             triggers: this.triggers,
             targeter: this.targeter
         };
-    }
-    ;
-    /**
-     * Обозреватель изменения строки-конфигуратора командного хелпера
-     * Обновляет конфигурацию командного хелпера
-     * @param now новая строка-конфигуратор
-     * @param before предыдущая строка-конфигуратор
-     */
-    triggersChanged(now, before) {
-        if (now !== null && now !== undefined) {
-            this.targeter.removeAll();
-            setTimeout(() => {
-                if (now !== '') {
-                    let arr = stringToTargetDefinitions(now);
-                    this.targeter.addMany(arr);
-                }
-                ;
-            }, 0);
-        }
-        ;
-    }
-    ;
-    /**
-     * Обозреватель изменения свойства disabled
-     * Если новое значение свойства равно true, устанавливает атрибут tabindex="-1"
-     * Если новое значение свойства равно false, устанавливает атрибут tabindex="0"
-     * @param newVal
-     * @param oldVal
-     */
-    disabledChanged(newVal, oldVal) {
-        (newVal) ? this.setAttribute('tabindex', '-1') : this.setAttribute('tabindex', '0');
     }
     ;
     /**
@@ -230,32 +192,7 @@ let ZButton = ZButton_1 = class ZButton extends PolymerElement {
         ;
     }
     ;
-    /** Метод, активирующий командный хелпер */
-    exec() {
-        if (this.triggers && this.targeter && !this.disabled)
-            if (this.noTap) {
-                this.targeter.exec();
-            }
-            else {
-                setTimeout(() => {
-                    this.targeter.exec();
-                }, ZButton_1.execDelay);
-            }
-        ;
-    }
-    ;
-    /** Переходит по ссылке, заданной в свойстве href элемента */
-    gotoHref() {
-        if (this.href && !this.disabled)
-            (ZButton_1.execDelay === 0) ? window.location.href = this.href : setTimeout(() => { window.location.href = this.href; }, ZButton_1.execDelay + 220);
-    }
-    ;
 };
-/**
- * Задержка исполнения действий кнопки
- * Используется в случае, если свойство noTap кнопки равно false
- */
-ZButton.execDelay = 150;
 __decorate([
     property({ reflectToAttribute: true, notify: true }),
     __metadata("design:type", String)
@@ -288,22 +225,6 @@ __decorate([
     property({ reflectToAttribute: true, notify: true }),
     __metadata("design:type", Number)
 ], ZButton.prototype, "z", void 0);
-__decorate([
-    property({ reflectToAttribute: true }),
-    __metadata("design:type", Boolean)
-], ZButton.prototype, "noTap", void 0);
-__decorate([
-    property({ notify: true }),
-    __metadata("design:type", String)
-], ZButton.prototype, "href", void 0);
-__decorate([
-    property({ reflectToAttribute: true, notify: true, observer: ZButton_1.prototype.disabledChanged }),
-    __metadata("design:type", Boolean)
-], ZButton.prototype, "disabled", void 0);
-__decorate([
-    property({ notify: true, observer: ZButton_1.prototype.triggersChanged }),
-    __metadata("design:type", String)
-], ZButton.prototype, "triggers", void 0);
 ZButton = ZButton_1 = __decorate([
     customElement('z-button'),
     __metadata("design:paramtypes", [])

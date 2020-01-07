@@ -1,4 +1,4 @@
-﻿import { EventSubType, Gender, KeyCode, OptionRole } from "../Enums/enums.js";
+﻿import { EventSubType, KeyCode, OptionRole, MenuBehaviourOnClick } from "../Enums/enums.js";
 
 
 
@@ -291,47 +291,6 @@ export interface IDomRepeatModel
 
 
 
-export interface IPersonDataParseObject
-{
-	IsSurname: boolean;
-	IsName: boolean;
-	Gender: Gender;
-}
-
-
-
-
-
-
-
-export type PersonDataPart = 'имя' | 'отчество' | 'фамилия';
-
-
-
-
-export interface IPersonDataPart extends IVal<string>
-{
-	part: PersonDataPart;
-	gender: Gender;
-}
-
-export interface IPersonData
-{
-	name: string;
-	midname: string;
-	surname: string;
-	gender: Gender;
-}
-
-export type GrammarPart = 'adjective' | 'noun' | 'supplement';
-
-
-
-
-
-
-
-
 
 /** Возможные состояния элемента od-grid-tile */
 export type GridTileStates = EventSubType.created | EventSubType.collapsed | EventSubType.expanded | EventSubType.minimized | EventSubType.maximized;
@@ -411,17 +370,18 @@ export type VisualSize = '0' | 'xxs' | 'xs' | 's' | 'n' | 'l' | 'xl' | 'xxl';
 
 
 
-export interface IOption extends ISimpleItem, INamed, IStronglyTyped<OptionRole>
+export interface IOption extends ISimpleItem, INamed, IStronglyTyped<OptionRole>, IData, IActivated
 {
-	size: VisualSize;
+	h: number;
 	icon: string;
 	iconColor: string;
-	iconSize: VisualSize;
+	iconSize: number;
 	secIcon: string;
+	href?: string;
 	noCheck: boolean;
-	active: boolean;
+	hideMenu: MenuBehaviourOnClick;
 	disabled: boolean;
-	data: any;
+	triggers?: string;
 }
 
 

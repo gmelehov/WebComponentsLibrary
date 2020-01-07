@@ -1,4 +1,4 @@
-import { EventSubType, Gender, KeyCode, OptionRole } from "../Enums/enums.js";
+import { EventSubType, KeyCode, OptionRole, MenuBehaviourOnClick } from "../Enums/enums.js";
 export declare type AnyFunction<A = any> = (...input: any[]) => A;
 export declare type AnyConstructor<A = object> = new (...input: any[]) => A;
 export declare type Mixin<T extends AnyFunction> = InstanceType<ReturnType<T>>;
@@ -124,23 +124,6 @@ export interface IDomRepeatModel {
     /**  */
     observe?: string;
 }
-export interface IPersonDataParseObject {
-    IsSurname: boolean;
-    IsName: boolean;
-    Gender: Gender;
-}
-export declare type PersonDataPart = 'имя' | 'отчество' | 'фамилия';
-export interface IPersonDataPart extends IVal<string> {
-    part: PersonDataPart;
-    gender: Gender;
-}
-export interface IPersonData {
-    name: string;
-    midname: string;
-    surname: string;
-    gender: Gender;
-}
-export declare type GrammarPart = 'adjective' | 'noun' | 'supplement';
 /** Возможные состояния элемента od-grid-tile */
 export declare type GridTileStates = EventSubType.created | EventSubType.collapsed | EventSubType.expanded | EventSubType.minimized | EventSubType.maximized;
 /** Псевдоним типа для метрики элемента od-grid-tile */
@@ -178,16 +161,17 @@ export declare type InputType = 'date' | 'text' | 'number' | 'month' | 'week' | 
 export declare type RippleDensity = 'pale' | 'light' | 'normal';
 /** Относительные визуальные размеры элемента */
 export declare type VisualSize = '0' | 'xxs' | 'xs' | 's' | 'n' | 'l' | 'xl' | 'xxl';
-export interface IOption extends ISimpleItem, INamed, IStronglyTyped<OptionRole> {
-    size: VisualSize;
+export interface IOption extends ISimpleItem, INamed, IStronglyTyped<OptionRole>, IData, IActivated {
+    h: number;
     icon: string;
     iconColor: string;
-    iconSize: VisualSize;
+    iconSize: number;
     secIcon: string;
+    href?: string;
     noCheck: boolean;
-    active: boolean;
+    hideMenu: MenuBehaviourOnClick;
     disabled: boolean;
-    data: any;
+    triggers?: string;
 }
 export declare type ResizerType = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
 /** Интерфейс размеров и положений блочной модели CSS */

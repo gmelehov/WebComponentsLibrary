@@ -4,8 +4,7 @@ import { ITargeterReady } from '../../Interfaces/targeting.js';
 import { Targeter } from '../../Classes/Targeter.js';
 import { fireCustomEvent } from '../../Utilities/fireCustomEvent.js';
 import { EventType } from '../../Enums/enums.js';
-import { stringToTargetDefinitions } from '../../Utilities/stringToTargetDefinitions.js';
-
+import { TargeterMixin } from '../../Mixins/TargeterMixin.js';
 
 
 const { customElement, property, observe } = Poly;
@@ -15,9 +14,13 @@ const { customElement, property, observe } = Poly;
 
 
 
-/** Кнопка-иконка */
+/**
+ * Кнопка-иконка
+ * @customElement
+ * @polymer
+ */
 @customElement('z-icon-button')
-export class ZIconButton extends PolymerElement implements ITargeterReady
+export class ZIconButton extends TargeterMixin(PolymerElement) implements ITargeterReady
 {
   private static get _styleTemplate(): HTMLTemplateElement
   {
@@ -26,6 +29,24 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
 			:host { display: inline-flex; line-height: 1; border-radius: 50%; vertical-align: middle; }
 			:host(:focus) { outline: none; background-color: hsla(0, 0%, 0%, 0.06); }
 			:host([disabled]) { pointer-events: none !important; filter: grayscale(100%); color: hsla(0, 0%, 0%, 0.23) !important; opacity: 0.36; }
+      :host([size="14"]) { width: 14px; height: 14px; }
+      :host([size="16"]) { width: 16px; height: 16px; }
+      :host([size="18"]) { width: 18px; height: 18px; }
+      :host([size="20"]) { width: 20px; height: 20px; }
+      :host([size="22"]) { width: 22px; height: 22px; }
+      :host([size="24"]) { width: 24px; height: 24px; }
+      :host([size="26"]) { width: 26px; height: 26px; }
+      :host([size="28"]) { width: 28px; height: 28px; }
+      :host([size="30"]) { width: 30px; height: 30px; }
+      :host([size="32"]) { width: 32px; height: 32px; }
+      :host([size="34"]) { width: 34px; height: 34px; }
+      :host([size="36"]) { width: 36px; height: 36px; }
+      :host([size="38"]) { width: 38px; height: 38px; }
+      :host([size="40"]) { width: 40px; height: 40px; }
+      :host([size="42"]) { width: 42px; height: 42px; }
+      :host([size="44"]) { width: 44px; height: 44px; }
+      :host([size="46"]) { width: 46px; height: 46px; }
+      :host([size="48"]) { width: 48px; height: 48px; }
 			:host(:not([disabled])) { pointer-events: auto; opacity: 1; }
 			:host div { display: block; cursor: pointer; position: relative; border-radius: 50%; align-items: center; padding: 0; width: 100%; height: 100%; }	
 			:host z-icon { position: absolute; left: 0; top: 0; right: 0; bottom: 0; transition: var(--z-half-medium-transition); transform-origin: center center; transition-delay: 0s; }
@@ -39,7 +60,7 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
   private static get _htmlTemplate(): HTMLTemplateElement
   {
     return html`
-		<div size$="[[size]]">
+		<div>
 			<z-icon name="{{aIcon}}" color="{{aColor}}" size="{{size}}"></z-icon>
 			<z-icon name="{{iIcon}}" color="{{iColor}}" size="{{size}}"></z-icon>
 			<z-ripple color="{{color}}" density="normal"></z-ripple>
@@ -59,10 +80,7 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
     this.aColor = '';
     this.iIcon = '';
     this.iColor = 'grey-600';
-    this.disabled = false;
     this.color = this.iColor;
-    this.triggers = '';
-    this.targeter = new Targeter();
   };
   connectedCallback()
   {
@@ -82,47 +100,42 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
 
 
 
+
   @property({ notify: true })
   color: string;
+
 
   @property({ notify: true })
   aIcon: string;
 
+
   @property({ notify: true })
   aColor: string;
+
 
   @property({ reflectToAttribute: true, notify: true })
   iIcon: string;
 
+
   @property({ reflectToAttribute: true, notify: true })
   iColor: string;
+
 
   /** Состояние элемента "отмечено/не отмечено" */
   @property({ reflectToAttribute: true, notify: true, observer: ZIconButton.prototype.activeChanged })
   active: boolean = false;
 
-  /** Конфигурация для командного хелпера */
-  @property({ notify: true, observer: ZIconButton.prototype.triggersChanged })
-  triggers: string = '';
 
-  /** Относительные размеры кнопки */
+  /** Визуальные размеры кнопки */
   @property({ reflectToAttribute: true, notify: true })
   size: number = 24;
-
-	/**
-	 * При установке в true элемент не может быть выбран/активирован/задействован
-	 * При установке в false (по умолчанию) элемент может быть выбран/активирован/задействован
-	 */
-  @property({ reflectToAttribute: true, notify: true })
-  disabled: boolean = false;
 
 
   @property({ reflectToAttribute: true, notify: true })
   hide: boolean = false;
 
 
-  /** Командный хелпер для взаимодействия с целевыми элементами */
-  targeter: Targeter;
+
 
 
 
@@ -139,6 +152,7 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
       active: this.active,
       size: this.size,
       disabled: this.disabled,
+      href: this.href,
       triggers: this.triggers,
       targeter: this.targeter
     };
@@ -186,29 +200,6 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
 
 
 	/**
-	 * Обозреватель изменения конфигурации командного хелпера
-	 * Обновляет конфигурацию командного хелпера
-	 * @param now новая конфигурация
-	 * @param before предыдущая конфигурация
-	 */
-  triggersChanged(now: string, before: string): void
-  {
-    if (now !== null && now !== undefined)
-    {
-      this.targeter.removeAll();
-      setTimeout(() =>
-      {
-        if (now !== '')
-        {
-          let arr = stringToTargetDefinitions(now);
-          this.targeter.addMany(arr);
-        };
-      }, 0);
-    };
-  };
-
-
-	/**
 	 * Обозреватель изменения свойства active
 	 * @param newActive новое значение свойства
 	 * @param oldActive предыдущее значение свойства
@@ -232,11 +223,4 @@ export class ZIconButton extends PolymerElement implements ITargeterReady
     this.color = (active) ? acolor : icolor;
   };
 
-
-  /** Активирует командный хелпер */
-  exec(): void
-  {
-    if (this.triggers && this.targeter && this.disabled === false)
-      this.targeter.exec();
-  };
 }

@@ -25,10 +25,6 @@ const { customElement, property, observe } = Poly;
 let ZBaseElement = class ZBaseElement extends PolymerElement {
     constructor() {
         super();
-        /** Путь к файлу, содержащему определения стилей для этого компонента. */
-        this.stylesSrc = '';
-        /** Путь к файлу, содержащему HTML-разметку для этого элемента. */
-        this.domSrc = '';
     }
     static get template() {
         return html ``;

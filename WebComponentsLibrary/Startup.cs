@@ -15,12 +15,17 @@ using Microsoft.Extensions.Hosting;
 
 namespace WebComponentsLibrary
 {
+  /// <summary>
+  /// 
+  /// </summary>
   public class Startup
   {
+
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+
     }
 
 
@@ -38,21 +43,6 @@ namespace WebComponentsLibrary
 
       app.UseDefaultFiles();
       app.UseStaticFiles();
-      //app.UseStaticFiles(new StaticFileOptions
-      //{
-      //  FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"JS")),
-      //  RequestPath = new PathString("/JS")
-      //});
-      //app.UseStaticFiles(new StaticFileOptions
-      //{
-      //  FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
-      //  RequestPath = new PathString(".")
-      //});
-      //app.UseStaticFiles(new StaticFileOptions
-      //{
-      //  FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"TS\ZElements")),
-      //  RequestPath = new PathString("/ZElements")
-      //});
       app.UseRouting();
 
       app.UseEndpoints(endpoints =>

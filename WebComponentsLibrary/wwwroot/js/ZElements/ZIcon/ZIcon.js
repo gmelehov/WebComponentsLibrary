@@ -14,17 +14,19 @@ import { afterNextRender } from '../../../lib/@polymer/polymer/lib/utils/render-
 import { isBetween } from '../../Utilities/isBetween.js';
 import { ZPalette } from '../../Classes/ZPalette.js';
 const { customElement, property, observe } = Poly;
-/** SVG-иконка Material Icons. */
+/**
+ * SVG-иконка Material Icons.
+ * @customElement
+ * @polymer
+ */
 let ZIcon = ZIcon_1 = class ZIcon extends PolymerElement {
     constructor() {
         super();
         /** Название иконки */
         this.name = '';
-        /** Прозрачность элемента */
+        /** Прозрачность иконки */
         this.opacity = 100;
-        /** Относительные размеры иконки */
-        this.size = 24;
-        /**  */
+        /** Признак отключенной/недоступной иконки */
         this.disabled = false;
         this.name = '';
         this.color = 'grey-600';
@@ -36,6 +38,7 @@ let ZIcon = ZIcon_1 = class ZIcon extends PolymerElement {
       :host([name='']) { width: 0; height: 0; padding: 0; transform: scale(0,0); transition: var(--z-medium-transition); }
       :host(:not([name=''])) { width: initial; height: initial; transform: scale(1,1); transition: var(--z-medium-transition); }
       :host ::slotted(svg) { fill: currentColor; }
+      :host([size=""]) { width: 0px; height: 0px; }
       :host([size="14"]) { width: 14px; height: 14px; }
       :host([size="16"]) { width: 16px; height: 16px; }
       :host([size="18"]) { width: 18px; height: 18px; }
@@ -50,6 +53,10 @@ let ZIcon = ZIcon_1 = class ZIcon extends PolymerElement {
       :host([size="36"]) { width: 36px; height: 36px; }
       :host([size="38"]) { width: 38px; height: 38px; }
       :host([size="40"]) { width: 40px; height: 40px; }
+      :host([size="42"]) { width: 42px; height: 42px; }
+      :host([size="44"]) { width: 44px; height: 44px; }
+      :host([size="46"]) { width: 46px; height: 46px; }
+      :host([size="48"]) { width: 48px; height: 48px; }
       :host div { width: 100%; height: 100%; border-radius: 50%; }
     </style>
     <div><slot></slot></div>`;
@@ -61,6 +68,11 @@ let ZIcon = ZIcon_1 = class ZIcon extends PolymerElement {
         afterNextRender(this, () => {
             this.nameChanged(this.name, undefined);
         });
+    }
+    ;
+    /** Ссылка на внутренний html-элемент div */
+    get innerDiv() {
+        return this.shadowRoot.querySelector('div');
     }
     ;
     opacityChanged(newVal, oldVal) {
@@ -96,8 +108,8 @@ let ZIcon = ZIcon_1 = class ZIcon extends PolymerElement {
     }
     ;
     colorChanged(newVal, oldVal) {
-        if (this.shadowRoot.querySelector('div'))
-            this.shadowRoot.querySelector('div').style.color = ZPalette.computeRGB(newVal, false) || '';
+        if (this.innerDiv)
+            this.innerDiv.style.color = ZPalette.computeRGB(newVal, false) || '';
     }
     ;
 };

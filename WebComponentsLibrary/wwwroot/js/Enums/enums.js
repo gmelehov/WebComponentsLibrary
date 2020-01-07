@@ -207,6 +207,10 @@ export var EventType;
     EventType["ironAjaxRequest"] = "iron-ajax-request";
     EventType["ironAjaxResponse"] = "iron-ajax-response";
     EventType["ironAjaxError"] = "iron-ajax-error";
+    /** Элемент z-collapser изменил состояние opened */
+    EventType["collapserToggled"] = "collapser-toggled";
+    /** Элемент z-expander изменил состояние opened */
+    EventType["expanderToggled"] = "expander-toggled";
 })(EventType || (EventType = {}));
 /** Наименования подтипов генерируемых событий */
 export var EventSubType;
@@ -260,32 +264,6 @@ export var EventSubType;
     /** не указано */
     EventSubType["none"] = "none";
 })(EventSubType || (EventSubType = {}));
-/** Грамматические падежи */
-export var GCase;
-(function (GCase) {
-    /** именительный */
-    GCase[GCase["nom"] = 0] = "nom";
-    /** родительный */
-    GCase[GCase["gen"] = 1] = "gen";
-    /** дательный */
-    GCase[GCase["dat"] = 2] = "dat";
-    /** винительный */
-    GCase[GCase["acc"] = 3] = "acc";
-    /** творительный */
-    GCase[GCase["ins"] = 4] = "ins";
-    /** предложный */
-    GCase[GCase["loc"] = 5] = "loc";
-})(GCase || (GCase = {}));
-/** Грамматический род / пол человека */
-export var Gender;
-(function (Gender) {
-    /** не указано */
-    Gender["No"] = "No";
-    /** мужской */
-    Gender["M"] = "M";
-    /** женский */
-    Gender["F"] = "F";
-})(Gender || (Gender = {}));
 /** Наименования предикатов для вычисления правил */
 export var RulePredicate;
 (function (RulePredicate) {
@@ -328,25 +306,35 @@ export var OptionRole;
      * опция-отметка
      * отображение дополнительной иконки, обозначающей текущее состояние опции "выбрано/не выбрано"
      * дополнительная иконка отображается после основного текста
-     * взаимоисключающие роли: {@link ODOptionRole.sub}, {@link ODOptionRole.dropdown}
+     * взаимоисключающие роли: {@link OptionRole.sub}, {@link OptionRole.dropdown}
      */
     OptionRole["toggle"] = "toggle";
     /**
      * опция-переключатель вложенного меню
      * отображение дополнительной иконки (стрелка вправо) для вызова вложенного меню
      * дополнительная иконка отображается после основного текста
-     * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link ODOptionRole.dropdown}
+     * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link OptionRole.dropdown}
      */
     OptionRole["sub"] = "sub";
     /**
      * опция-переключатель выпадающего списка
      * отображение дополнительной иконки (стрелка вниз) для раскрытия выпадающего списка
      * дополнительная иконка отображается после основного текста
-     * взаимоисключающие роли: {@link ODOptionRole.toggle}, {@link ODOptionRole.sub}
+     * взаимоисключающие роли: {@link OptionRole.toggle}, {@link OptionRole.sub}
      */
     OptionRole["dropdown"] = "dropdown";
     OptionRole["collapser"] = "collapser";
 })(OptionRole || (OptionRole = {}));
+/** Поведение основного меню и вложенных подменю при активации одной из дочерних опций */
+export var MenuBehaviourOnClick;
+(function (MenuBehaviourOnClick) {
+    /** Не закрывать основное и вложенные меню */
+    MenuBehaviourOnClick["keepAll"] = "keepAll";
+    /** Закрывать ближайшее родительское меню */
+    MenuBehaviourOnClick["hideParent"] = "hideParent";
+    /** Закрывать все родительские меню, включая основное */
+    MenuBehaviourOnClick["hideAll"] = "hideAll";
+})(MenuBehaviourOnClick || (MenuBehaviourOnClick = {}));
 /** Варианты выравнивания элемента overlay относительно родительского элемента */
 export var OverlayPosition;
 (function (OverlayPosition) {

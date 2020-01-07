@@ -10,7 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { PolymerElement, html } from '../../../lib/@polymer/polymer/polymer-element.js';
 import * as Poly from '../../../lib/@polymer/decorators/lib/decorators.js';
 const { customElement, property, observe } = Poly;
-/** Набор svg-иконок Material Icons */
+/**
+ * Набор svg-иконок Material Icons
+ * @customElement
+ * @polymer
+ */
 let ZIconSet = class ZIconSet extends PolymerElement {
     constructor() {
         super();
@@ -604,7 +608,6 @@ let ZIconSet = class ZIconSet extends PolymerElement {
     prepareSVGClone(iconId) {
         let svg = null;
         if (iconId && this.shadowRoot.getElementById(iconId)) {
-            //let innerSVG = this.$[iconId].cloneNode(true);
             let innerSVG = this.shadowRoot.getElementById(iconId).cloneNode(true);
             svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.setAttribute('viewBox', `0 0 ${this.iconSize} ${this.iconSize}`);

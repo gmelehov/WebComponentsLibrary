@@ -15,7 +15,11 @@ const { customElement, property, observe } = Poly;
 
 
 
-/** SVG-иконка Material Icons. */
+/** 
+ * SVG-иконка Material Icons. 
+ * @customElement
+ * @polymer
+ */
 @customElement('z-icon')
 export class ZIcon extends PolymerElement
 {
@@ -27,6 +31,7 @@ export class ZIcon extends PolymerElement
       :host([name='']) { width: 0; height: 0; padding: 0; transform: scale(0,0); transition: var(--z-medium-transition); }
       :host(:not([name=''])) { width: initial; height: initial; transform: scale(1,1); transition: var(--z-medium-transition); }
       :host ::slotted(svg) { fill: currentColor; }
+      :host([size=""]) { width: 0px; height: 0px; }
       :host([size="14"]) { width: 14px; height: 14px; }
       :host([size="16"]) { width: 16px; height: 16px; }
       :host([size="18"]) { width: 18px; height: 18px; }
@@ -41,6 +46,10 @@ export class ZIcon extends PolymerElement
       :host([size="36"]) { width: 36px; height: 36px; }
       :host([size="38"]) { width: 38px; height: 38px; }
       :host([size="40"]) { width: 40px; height: 40px; }
+      :host([size="42"]) { width: 42px; height: 42px; }
+      :host([size="44"]) { width: 44px; height: 44px; }
+      :host([size="46"]) { width: 46px; height: 46px; }
+      :host([size="48"]) { width: 48px; height: 48px; }
       :host div { width: 100%; height: 100%; border-radius: 50%; }
     </style>
     <div><slot></slot></div>`;
@@ -66,29 +75,44 @@ export class ZIcon extends PolymerElement
 
 
 
+
+
   /** Название иконки */
   @property({ reflectToAttribute: true, notify: true, observer: ZIcon.prototype.nameChanged })
   name: string = '';
 
 
-  /** Цвет элемента */
+  /** Цвет иконки */
   @property({ notify: true, observer: ZIcon.prototype.colorChanged })
   color: string;
 
 
-  /** Прозрачность элемента */
+  /** Прозрачность иконки */
   @property({ notify: true, observer: ZIcon.prototype.opacityChanged })
   opacity: number = 100;
 
 
-  /** Относительные размеры иконки */
+  /** Визуальные размеры иконки в пикселях */
   @property({ reflectToAttribute: true, notify: true })
-  size: number = 24;
+  size: number;
 
 
-  /**  */
+  /** Признак отключенной/недоступной иконки */
   @property({ reflectToAttribute: true, notify: true })
   disabled: boolean = false;
+
+
+
+
+
+  /** Ссылка на внутренний html-элемент div */
+  get innerDiv(): HTMLDivElement
+  {
+    return this.shadowRoot.querySelector('div');
+  };
+
+
+
 
 
 
@@ -137,7 +161,7 @@ export class ZIcon extends PolymerElement
 
   colorChanged(newVal: string, oldVal: string): void
   {
-    if (this.shadowRoot.querySelector('div'))
-      this.shadowRoot.querySelector('div').style.color = ZPalette.computeRGB(newVal, false) || '';
+    if (this.innerDiv)
+      this.innerDiv.style.color = ZPalette.computeRGB(newVal, false) || '';
   };
 }

@@ -1,6 +1,5 @@
 ﻿import { PolymerElement, html } from '../../../lib/@polymer/polymer/polymer-element.js';
 import * as Poly from '../../../lib/@polymer/decorators/lib/decorators.js';
-import { ZBaseElement } from '../ZBaseElement/ZBaseElement.js';
 
 
 const { customElement, property, observe } = Poly;
@@ -13,7 +12,11 @@ const { customElement, property, observe } = Poly;
 
 
 
-/** Набор svg-иконок Material Icons */
+/** 
+ * Набор svg-иконок Material Icons
+ * @customElement
+ * @polymer
+ */
 @customElement('z-icon-set')
 export class ZIconSet extends PolymerElement
 {
@@ -633,10 +636,8 @@ export class ZIconSet extends PolymerElement
 
     if (iconId && this.shadowRoot.getElementById(iconId))
     {
-      //let innerSVG = this.$[iconId].cloneNode(true);
       let innerSVG = this.shadowRoot.getElementById(iconId).cloneNode(true);
       svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-
       svg.setAttribute('viewBox', `0 0 ${this.iconSize} ${this.iconSize}`);
       svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
       svg.appendChild(innerSVG);

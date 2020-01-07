@@ -1,5 +1,5 @@
 ﻿import { IMetadataDescriptor } from '../Interfaces/interfaces';
-import 'lib/reflect-metadata/Reflect.js';
+import '../../lib/reflect-metadata/Reflect.js';
 
 
 

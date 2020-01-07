@@ -1,5 +1,9 @@
 import { PolymerElement } from '../../../lib/@polymer/polymer/polymer-element.js';
-/** Набор svg-иконок Material Icons */
+/**
+ * Набор svg-иконок Material Icons
+ * @customElement
+ * @polymer
+ */
 export declare class ZIconSet extends PolymerElement {
     static get template(): HTMLTemplateElement;
     constructor();

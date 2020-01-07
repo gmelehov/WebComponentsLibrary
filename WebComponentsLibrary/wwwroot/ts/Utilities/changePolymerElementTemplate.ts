@@ -1,5 +1,5 @@
-﻿import { PolymerElement } from 'lib/@polymer/polymer/polymer-element.js';
-import { microTask } from 'lib/@polymer/polymer/lib/utils/async.js';
+﻿import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
+import { microTask } from '../../lib/@polymer/polymer/lib/utils/async.js';
 
 
 

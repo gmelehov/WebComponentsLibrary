@@ -1,19 +1,25 @@
 import { PolymerElement } from '../../../lib/@polymer/polymer/polymer-element.js';
-/** SVG-иконка Material Icons. */
+/**
+ * SVG-иконка Material Icons.
+ * @customElement
+ * @polymer
+ */
 export declare class ZIcon extends PolymerElement {
     static get template(): HTMLTemplateElement;
     constructor();
     connectedCallback(): void;
     /** Название иконки */
     name: string;
-    /** Цвет элемента */
+    /** Цвет иконки */
     color: string;
-    /** Прозрачность элемента */
+    /** Прозрачность иконки */
     opacity: number;
-    /** Относительные размеры иконки */
+    /** Визуальные размеры иконки в пикселях */
     size: number;
-    /**  */
+    /** Признак отключенной/недоступной иконки */
     disabled: boolean;
+    /** Ссылка на внутренний html-элемент div */
+    get innerDiv(): HTMLDivElement;
     opacityChanged(newVal: number, oldVal: number): void;
     /**
        * Обозреватель изменения свойства name.
