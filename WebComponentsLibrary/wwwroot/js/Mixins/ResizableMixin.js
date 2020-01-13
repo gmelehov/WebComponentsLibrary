@@ -11,30 +11,31 @@ import * as Poly from '../../lib/@polymer/decorators/lib/decorators.js';
 import { dedupingMixin } from '../../lib/@polymer/polymer/lib/utils/mixin.js';
 import { GestureEventListeners } from '../../lib/@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '../../lib/@polymer/polymer/lib/utils/gestures.js';
-import { setStyles } from '../Utilities/setStyles.js';
 import { afterNextRender } from '../../lib/@polymer/polymer/lib/utils/render-status.js';
 import { findParentElement } from '../Utilities/findParentElement.js';
+import { PositionableMixin } from './PositionableMixin.js';
+import { clamp } from '../Utilities/clamp.js';
 const { customElement, property, observe, computed } = Poly;
+/**
+ * Добавляет элементу возможность изменения его визуальных размеров
+ * @polymer
+ * @mixinFunction
+ */
 export const ResizableMixin = dedupingMixin((base) => {
-    class ResizableBaseClass extends GestureEventListeners(base) {
+    /**
+     * @polymer
+     * @mixinClass
+     * @appliesMixin GestureEventListeners
+     * @appliesMixin PositionableMixin
+     */
+    class ResizableBaseClass extends GestureEventListeners(PositionableMixin(base)) {
         constructor(...input) {
             super();
             /**
              * Набор ресайзеров для управления шириной и высотой элемента
-             * @default {String} 'L B BR R' (Left, Bottom, BottomRight, Right)
+             * @default {String} 'B BR R' (Bottom, BottomRight, Right)
              */
-            this.resizers = 'L B BR R';
-            /** Шаг изменения ширины/высоты элемента, в пикселях */
-            this.threshold = 5;
-            /** Минимальная высота элемента, в пикселях */
-            this.hmin = 15;
-            /** Максимальная высота элемента, в пикселях */
-            this.hmax = Infinity;
-            /** Минимальная ширина элемента, в пикселях */
-            this.wmin = 15;
-            /** Максимальная ширина элемента, в пикселях */
-            this.wmax = Infinity;
-            //Gestures.addListener(this, 'track', this.handleResize.bind(this));
+            this.resizers = 'B BR R';
         }
         ;
         connectedCallback() {
@@ -47,37 +48,33 @@ export const ResizableMixin = dedupingMixin((base) => {
         ;
         disconnectedCallback() {
             super.disconnectedCallback();
-            //Gestures.removeListener(this, 'track', this.handleResize.bind(this));
         }
         ;
         toggleEventListeners() {
             const resizers = [...this.querySelectorAll('span[resize]')] || [];
             resizers.forEach(res => {
                 if (!res['_hasResizeListener']) {
-                    Gestures.addListener(res, 'track', this.handleResize.bind(this));
+                    Gestures.addListener(res, 'track', this.handleResize);
                     res['_hasResizeListener'] = true;
-                }
-                else {
-                    //Gestures.removeListener(res, 'track', this.handleResize.bind(this));
-                    //res['_hasResizeListener'] = false;
                 }
                 ;
             });
-            if (!this['_hasNativeMoveListener']) {
-                this.addEventListener('touchmove', this.safePreventDefault);
-                this['_hasNativeMoveListener'] = true;
-            }
-            else {
-                this.removeEventListener('touchmove', this.safePreventDefault);
-                this['_hasNativeMoveListener'] = false;
-            }
-            ;
+            //if (!this['_hasNativeMoveListener'])
+            //{
+            //  this.addEventListener('touchmove', this.safePreventDefault);
+            //  this['_hasNativeMoveListener'] = true;
+            //}
+            //else
+            //{
+            //  this.removeEventListener('touchmove', this.safePreventDefault);
+            //  this['_hasNativeMoveListener'] = false;
+            //};
         }
         ;
         handleResize(e) {
             let targ = findParentElement(e.target, '[resizers]');
-            let state = e['detail'].state;
-            let srcEvent = e['detail'].sourceEvent;
+            let state = e.detail.state;
+            let srcEvent = e.detail.sourceEvent;
             switch (state) {
                 case 'start':
                     targ._doHandleResizeStart(targ);
@@ -95,21 +92,13 @@ export const ResizableMixin = dedupingMixin((base) => {
                 srcEvent.preventDefault && srcEvent.preventDefault();
             }
             ;
-            e.stopPropagation();
             e.preventDefault();
+            e.stopPropagation();
         }
         ;
         _doHandleResizeStart(elem) {
-            let styles = window.getComputedStyle(elem);
-            setStyles(elem, {
-                'left': styles.getPropertyValue('left'),
-                'top': styles.getPropertyValue('top'),
-                'width': styles.getPropertyValue('width'),
-                'height': styles.getPropertyValue('height'),
-                'transition': 'none',
-                'zIndex': '1'
-            });
-            elem.setAttribute('dragging', '');
+            elem._updatePropsFromStyles();
+            elem.setAttribute('resizing', '');
         }
         ;
         _doHandleResizeTrack(e, elem) {
@@ -120,33 +109,36 @@ export const ResizableMixin = dedupingMixin((base) => {
             let isHeight = ['T', 'B', 'TR', 'BR', 'BL', 'TL'].some(s => { return s == resizeType; });
             let left = parseFloat(elem.style.left.split('px')[0]);
             let top = parseFloat(elem.style.top.split('px')[0]);
-            let width = parseFloat(elem.style.width.split('px')[0]);
-            let height = parseFloat(elem.style.height.split('px')[0]);
-            let newLeft = left + +e['detail'].ddx;
-            let newTop = top + +e['detail'].ddy;
-            let newWidth = width + (isLeft ? -e['detail'].ddx : +e['detail'].ddx);
-            let newHeight = height + (isTop ? -e['detail'].ddy : +e['detail'].ddy);
-            let row = top;
-            let col = left;
-            let cols = width;
-            let rows = height;
-            let colCount = Math.round(window.innerWidth / elem.threshold);
-            let rowCount = Math.round(window.innerHeight / elem.threshold);
-            //let position = elem.getClosestPosition(newLeft, newTop, 1, 1, isTop || isLeft);
-            let size = elem.getClosestSize(newWidth, newHeight, isLeft ? cols + col : col - colCount, isTop ? rows + row : row - rowCount);
-            elem.style.transition = 'none';
-            isLeft && newWidth >= elem.threshold && (elem.style.left = `${newLeft}px`);
-            isTop && newHeight >= elem.threshold && (elem.style.top = `${newTop}px`);
-            isWidth && newWidth >= elem.threshold && (elem.style.width = `${newWidth}px`);
-            isHeight && newHeight >= elem.threshold && (elem.style.height = `${newHeight}px`);
+            let width = clamp(parseFloat(elem.style.width.split('px')[0]), elem.wmin, elem.wmax);
+            let height = clamp(parseFloat(elem.style.height.split('px')[0]), elem.hmin, elem.hmax);
+            let newLeft = left + e.detail.ddx;
+            let newTop = top + e.detail.ddy;
+            let newWidth = width + (isLeft ? -e.detail.ddx : e.detail.ddx);
+            let newHeight = height + (isTop ? -e.detail.ddy : e.detail.ddy);
+            if (isLeft && newWidth >= 1) {
+                elem.style.left = `${newLeft}px`;
+                elem.left = newLeft;
+            }
+            ;
+            if (isTop && newHeight >= 1) {
+                elem.style.top = `${newTop}px`;
+                elem.top = newTop;
+            }
+            ;
+            if (isWidth && newWidth >= 1) {
+                elem.style.width = `${newWidth}px`;
+                elem.width = newWidth;
+            }
+            ;
+            if (isHeight && newHeight >= 1) {
+                elem.style.height = `${newHeight}px`;
+                elem.height = newHeight;
+            }
+            ;
         }
         ;
         _doHandleResizeEnd(elem) {
-            //setStyles(elem, {
-            //  'transition': 'none',
-            //  'zIndex': ''
-            //});
-            elem.removeAttribute('dragging');
+            elem.removeAttribute('resizing');
             let _ev = new CustomEvent('resize', {
                 bubbles: true,
                 detail: {
@@ -174,72 +166,37 @@ export const ResizableMixin = dedupingMixin((base) => {
         ;
         _createResizersStyles() {
             let sheet = this.shadowRoot.styleSheets[0];
-            sheet.addRule(':host ::slotted([resize])', 'position: absolute; opacity: 0; ');
-            sheet.addRule(':host ::slotted([resize]:hover)', 'opacity: 0.7;');
-            sheet.addRule(':host ::slotted([resize="BR"])', 'bottom: 0px; right: 0px; width: 12px; cursor: nwse-resize; height: 12px;');
-            sheet.addRule(':host ::slotted([resize="BR"])::after', 'content: "┘";');
-            sheet.addRule(':host ::slotted([resize="B"])', 'bottom: 0px; left: 25%; right: 25%; text-align: center; cursor: ns-resize; height: 12px;');
-            sheet.addRule(':host ::slotted([resize="B"])::after', 'content: "—";');
-            sheet.addRule(':host ::slotted([resize="R"])', 'bottom: 0; top: 0; right: 0px; width: 6px; cursor: ew-resize; display: flex; align-items: center;');
-            sheet.addRule(':host ::slotted([resize="R"])::after', 'content: "|";');
-            sheet.addRule(':host ::slotted([resize="L"])', 'bottom: 0; top: 0; left: 0px; width: 6px; cursor: ew-resize; display: flex; align-items: center; justify-content: flex-end;');
-            sheet.addRule(':host ::slotted([resize="L"])::after', 'content: "|";');
+            sheet.addRule(':host([resizing])', 'box-shadow: var(--z-shadow-z6) !important;');
+            sheet.addRule('::slotted([resize])', 'position: absolute; opacity: 0; z-index: 10000; ');
+            sheet.addRule('::slotted([resize]:hover)', 'opacity: 0.7; background-color: hsla(0, 0%, 0%, 0.15);');
+            sheet.addRule('::slotted([resize="BR"])', 'bottom: 0px; right: 0px; width: 6px; cursor: nwse-resize; height: 6px;');
+            //sheet.addRule('::slotted([resize="BR"])::after', 'content: "┘";');
+            sheet.addRule('::slotted([resize="B"])', 'bottom: 0px; left: 0%; right: 6px; text-align: center; cursor: ns-resize; height: 6px;');
+            //sheet.addRule('::slotted([resize="B"])::after', 'content: "—";');
+            sheet.addRule('::slotted([resize="R"])', 'bottom: 6px; top: 0; right: 0px; width: 6px; cursor: ew-resize; display: flex; align-items: center;');
+            //sheet.addRule('::slotted([resize="R"])::after', 'content: "|";');
+            sheet.addRule('::slotted([resize="L"])', 'bottom: 0; top: 0; left: 0px; width: 6px; cursor: ew-resize; display: flex; align-items: center; justify-content: flex-end;');
+            //sheet.addRule('::slotted([resize="L"])::after', 'content: "|";');
         }
         ;
         resizersChanged(newval, oldval) {
             if (!!newval) {
                 let resArray = newval.split(/\s/);
                 let resizers = [...this.querySelectorAll('[resize]')];
+                resizers.forEach(r => r.remove());
                 if (Array.isArray(resArray)) {
-                    resizers.forEach(r => r.remove());
                     resArray.forEach(r => {
                         let sp = document.createElement('span');
                         sp.setAttribute('resize', r);
                         sp.slot = 'rsz';
                         this.appendChild(sp);
-                        sp.removeAttribute('style');
+                        //sp.removeAttribute('style');
                     });
-                    this.toggleEventListeners();
                 }
                 ;
+                this.toggleEventListeners();
             }
             ;
-        }
-        ;
-        getClosestPosition(x, y, rows = 1, cols = 1, floorHalf = false) {
-            let position;
-            let colRatio = x / this.threshold;
-            let rowRatio = y / this.threshold;
-            let colCount = Math.round(window.innerWidth / this.threshold);
-            let rowCount = Math.round(window.innerHeight / this.threshold);
-            if (floorHalf) {
-                position = {
-                    col: colRatio % 0.5 === 0 ? Math.floor(colRatio) : Math.round(colRatio),
-                    row: rowRatio % 0.5 === 0 ? Math.floor(rowRatio) : Math.round(rowRatio)
-                };
-            }
-            else {
-                position = {
-                    col: Math.round(colRatio),
-                    row: Math.round(rowRatio)
-                };
-            }
-            ;
-            return {
-                col: Math.max(Math.min(position.col, colCount - cols), 0),
-                row: Math.max(Math.min(position.row, rowCount - rows), 0)
-            };
-        }
-        ;
-        getClosestSize(width, height, maxWidth = window.innerWidth, maxHeight = window.innerHeight) {
-            let size = {
-                height: Math.round(height / this.threshold),
-                width: Math.round(width / this.threshold)
-            };
-            return {
-                width: Math.max(Math.min(size.width, maxWidth), 1),
-                height: Math.max(Math.min(size.height, maxHeight), 1),
-            };
         }
         ;
     }
@@ -247,26 +204,6 @@ export const ResizableMixin = dedupingMixin((base) => {
         property({ notify: true, reflectToAttribute: true, observer: ResizableBaseClass.prototype.resizersChanged }),
         __metadata("design:type", String)
     ], ResizableBaseClass.prototype, "resizers", void 0);
-    __decorate([
-        property({ notify: true }),
-        __metadata("design:type", Number)
-    ], ResizableBaseClass.prototype, "threshold", void 0);
-    __decorate([
-        property({ notify: true }),
-        __metadata("design:type", Number)
-    ], ResizableBaseClass.prototype, "hmin", void 0);
-    __decorate([
-        property({ notify: true }),
-        __metadata("design:type", Number)
-    ], ResizableBaseClass.prototype, "hmax", void 0);
-    __decorate([
-        property({ notify: true }),
-        __metadata("design:type", Number)
-    ], ResizableBaseClass.prototype, "wmin", void 0);
-    __decorate([
-        property({ notify: true }),
-        __metadata("design:type", Number)
-    ], ResizableBaseClass.prototype, "wmax", void 0);
     ;
     return ResizableBaseClass;
 });

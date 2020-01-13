@@ -1,57 +1,20 @@
+import { IOption } from "../Interfaces/interfaces.js";
+import { ITargeterReady } from "../Interfaces/targeting.js";
+import { OptionRole, MenuBehaviourOnClick } from "../Enums/enums.js";
+import { Targeter } from "../Classes/Targeter.js";
 import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
-import { AnyConstructor } from '../Interfaces/interfaces.js';
-/**
- * Добавляет элементу функциональность drag-and-drop
- * @polymer
- * @mixinFunction
- */
-export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(base: U) => {
+declare const ZOption_base: {
     new (...input: any[]): {
         connectedCallback(): void;
-        disconnectedCallback(): void;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
-        handleTrack(e: CustomEvent<any>): void;
-        /**
-         * Обработчик стадии start события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleStartState(elem: any): void;
-        /**
-         * Обработчик стадии track события track
-         * @private
-         * @param e событие track
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleTrackState(e: CustomEvent<any>, elem: any): void;
-        /**
-         * Обработчик стадии end события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleEndState(elem: any): void;
-        _createDraggingStyles(): void;
-        left: number;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
-        top: number;
-        width: number;
-        height: number;
-        hmin: number;
-        hmax: number;
-        wmin: number;
-        wmax: number;
-        _updateMaxSizesFromViewport(): void;
-        _initStylesFromProps(): void;
-        _updatePropsFromStyles(): void;
-        updateTopLeft(top: number, left: number): void;
-        updateWidthHeight(width: number, height: number): void;
-        handleWindowResize(e: Event): void;
+        disabled: boolean;
+        noTap: boolean;
+        href: string;
+        triggers: string;
+        targeter: Targeter;
+        disabledChanged(newVal: boolean, oldVal: boolean): void;
+        triggersChanged(now: string, before: string): void;
+        exec(): void;
+        gotoHref(): void;
         accessKey: string;
         readonly accessKeyLabel: string;
         autocapitalize: string;
@@ -367,8 +330,8 @@ export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(
         _bindTemplate(template: HTMLTemplateElement, instanceBinding?: boolean): import("../../lib/@polymer/polymer/interfaces.js").TemplateInfo;
         _removeBoundDom(dom: import("../../lib/@polymer/polymer/interfaces.js").StampedTemplate): void;
         _addMethodEventListenerToNode(node: EventTarget, eventName: string, methodName: string, context?: any): Function;
-        _addEventListenerToNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
-        _removeEventListenerFromNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
+        _addEventListenerToNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
+        _removeEventListenerFromNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
         _definePropertyAccessor: ((property: string, readOnly?: boolean) => void) & ((property: string, readOnly?: boolean) => void);
         _serializeValue: ((value: any) => string) & ((value: any) => string);
         _deserializeValue: ((value: string, type?: any) => any) & ((value: string, type?: any) => any);
@@ -385,5 +348,108 @@ export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(
         _attributeToProperty(attribute: string, value: string, type?: any): void;
         _propertyToAttribute(property: string, attribute?: string, value?: any): void;
         _valueToNodeAttribute(node: Element, value: any, attribute: string): void;
+        disconnectedCallback(): void;
     };
-} & U;
+    execDelay: number;
+    hrefDelay: number;
+} & typeof PolymerElement;
+/**
+ * Элемент-опция
+ * Может быть использована в меню, подменю, выпадающем списке
+ * @customElement
+ * @polymer
+ */
+export declare class ZOption extends ZOption_base implements IOption, ITargeterReady {
+    static get template(): HTMLTemplateElement;
+    constructor(model?: IOption);
+    connectedCallback(): void;
+    disconnectedCallback(): void;
+    /** Идентификатор элемента */
+    id: string;
+    /** Отображаемый текст опции */
+    name: string;
+    /** Значение опции */
+    val: string;
+    /** Высота элемента в пикселях */
+    h: number;
+    /** Основная иконка, отображаемая перед текстом опции */
+    icon: string;
+    /**
+     * Цвет основной иконки, отображаемой перед текстом опции
+     * Указанный цвет применяется также к эффектам элемента z-ripple
+     */
+    iconColor: string;
+    /** Размеры основной иконки, отображаемой перед текстом опции */
+    iconSize: number;
+    /** Дополнительная иконка, отображаемая после текста опции */
+    secIcon: string;
+    noCheck: boolean;
+    /**
+     * Закрывать родительское меню после клика на этом элементе
+     * В случае true, меню будет закрыто даже если свойство type элемента равно toggle
+     */
+    hideMenu: MenuBehaviourOnClick;
+    /** Тип опции, зависящий от контекста ее использования */
+    type: OptionRole;
+    /** Состояние опции "отмечено/не отмечено" для опции с ролью {@link OptionRole.toggle} */
+    active: boolean;
+    /** Набор данных, связанных с элементом */
+    data: any;
+    /** Основные свойства элемента-опции */
+    get details(): IOption;
+    /**
+     * Обработчик клика мышкой
+     * Генерирует событие option-activated
+     * @param e событие click
+     * @emits option-activated
+     */
+    handleClick(e: Event): void;
+    /**
+     * Обработчик нажатия управляющих клавиш на элементе, получившем фокус ввода
+     * Генерирует событие option-activated
+     * @param e событие keydown
+     * @emits option-activated
+     */
+    handleKeydown(e: KeyboardEvent): void;
+    /**
+     * Обозреватель изменения роли элемента-опции
+     * @param newType новое значение роли
+     * @param oldType предыдущее значение роли
+     */
+    typeChanged(newType: OptionRole, oldType: OptionRole): void;
+    /**
+     * Обозреватель изменения свойства active
+     * Если элемент выбран (active === true), генерирует событие option-selected
+     * @param newActive новое значение свойства
+     * @param oldActive предыдущее значение свойства
+     * @emits option-selected
+     */
+    activeChanged(newActive: boolean, oldActive: boolean): void;
+    activate(doRipple?: boolean): void;
+    valNameChanged(val: string, name: string): void;
+    /** Анимация взаимодействия с элементом */
+    ripple(): void;
+    _doActivateOption(): void;
+    _doSelectSibling(e: KeyboardEvent): void;
+    _doFireActivated(): void;
+    _doFireSelected(): void;
+    _doTargeterExecute(): void;
+    _doHrefNavigate(): void;
+    /**
+     * Проверяет эквивалентность двух элементов-опций
+     * Возвращает true, если:
+     * - существуют оба элемента-опции
+     * - у каждого элемента-опции существует свойство-объект details
+     * - количество свойств у каждого из объектов details соответствующих элементов-опций - одинаковое
+     * - значения свойств объектов details соответствующих элементов-опций полностью совпадают друг с другом
+     *
+     * Возвращает false в случае невыполнения любого из указанных требований
+     *
+     * @param opt1 первый сравниваемый элемент-опция
+     * @param opt2 второй сравниваемый элемент-опция
+     */
+    static isEqualOptions(opt1: ZOption, opt2: ZOption): boolean;
+    static isEqualDetails(det1: IOption, det2: IOption): boolean;
+    static create(model: IOption): ZOption;
+}
+export {};

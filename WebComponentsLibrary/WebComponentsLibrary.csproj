@@ -7,22 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\ts\elems-index.ts" />
     <Content Remove="wwwroot\ts\Mixins\DraggableMixin.ts" />
+    <Content Remove="wwwroot\ts\Mixins\PositionableMixin.ts" />
     <Content Remove="wwwroot\ts\Mixins\ResizableMixin.ts" />
     <Content Remove="wwwroot\ts\Mixins\TargeterMixin.ts" />
     <Content Remove="wwwroot\ts\utilities-index.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZCollapser\ZCollapser.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZDivider\ZDivider.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZDropdown\ZDropdown.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZExpandable\ZExpandable.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZExpanders\ZExpanders.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZExpander\ZExpander.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZMenu\ZMenu.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZOption\ZOption.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZOverlay\ZOverlay.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZPaper\ZPaper.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZSubheader\ZSubheader.ts" />
-    <Content Remove="wwwroot\ts\ZElements\ZSubmenu\ZSubmenu.ts" />
     <Content Remove="wwwroot\ts\zlib.ts" />
   </ItemGroup>
 
@@ -180,6 +171,14 @@
     <TypeScriptCompile Remove="TS\Utilities\xnor.ts" />
     <TypeScriptCompile Remove="TS\Utilities\xor.ts" />
     <TypeScriptCompile Remove="TS\Utilities\zipObject.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

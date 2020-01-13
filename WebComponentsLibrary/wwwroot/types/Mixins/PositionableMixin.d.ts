@@ -1,56 +1,69 @@
 import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
 import { AnyConstructor } from '../Interfaces/interfaces.js';
 /**
- * Добавляет элементу функциональность drag-and-drop
+ * Добавляет элементу возможность управления размерами и позиционированием.
+ * Является базовым миксином для DraggableMixin и ResizableMixin.
  * @polymer
  * @mixinFunction
  */
-export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(base: U) => {
+export declare const PositionableMixin: <U extends AnyConstructor<PolymerElement>>(base: U) => {
     new (...input: any[]): {
         connectedCallback(): void;
         disconnectedCallback(): void;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
-        handleTrack(e: CustomEvent<any>): void;
-        /**
-         * Обработчик стадии start события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleStartState(elem: any): void;
-        /**
-         * Обработчик стадии track события track
-         * @private
-         * @param e событие track
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleTrackState(e: CustomEvent<any>, elem: any): void;
-        /**
-         * Обработчик стадии end события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleEndState(elem: any): void;
-        _createDraggingStyles(): void;
+        /** Расстояние между левым краем окна браузера и левым краем элемента, в пикселях */
         left: number;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
+        /** Расстояние между верхним краем окна браузера и верхним краем элемента, в пикселях */
         top: number;
+        /** Ширина элемента, в пикселях */
         width: number;
+        /** Высота элемента, в пикселях */
         height: number;
+        /** Минимальная высота элемента, в пикселях */
         hmin: number;
+        /** Максимальная высота элемента, в пикселях */
         hmax: number;
+        /** Минимальная ширина элемента, в пикселях */
         wmin: number;
+        /** Максимальная ширина элемента, в пикселях */
         wmax: number;
+        /**
+         * Обновляет максимальную высоту и максимальную ширину элемента.
+         * Метод должен вызываться при начальной отрисовке элемента,
+         * а также каждый раз при изменении размеров окна браузера.
+         * @private
+         */
         _updateMaxSizesFromViewport(): void;
+        /**
+         * Выполняет начальную установку стилей элемента.
+         * Значения копируются из соответствующих свойств.
+         * @private
+         */
         _initStylesFromProps(): void;
+        /**
+         * Копирует текущие значения CSS-свойств left, top, width, height
+         * в соответствующие свойства элемента.
+         * @private
+         */
         _updatePropsFromStyles(): void;
+        /**
+         * Обновляет смещения элемента по вертикали (от верхнего края браузера)
+         * и по горизонтали (от левого края браузера).
+         * Метод должен вызываться при перемещении элемента (drag-and-drop).
+         * @param top новое значение для смещения элемента по вертикали
+         * @param left новое значение для смещения элемента по горизонтали
+         */
         updateTopLeft(top: number, left: number): void;
+        /**
+         * Обновляет высоту и ширину элемента.
+         * Метод должен вызываться при изменении размеров элемента (resize).
+         * @param width новое значение для ширины элемента
+         * @param height новое значение для высоты элемента
+         */
         updateWidthHeight(width: number, height: number): void;
+        /**
+         * Обработчик события resize, генерируемого при изменении размеров окна браузера.
+         * @param e событие resize
+         */
         handleWindowResize(e: Event): void;
         accessKey: string;
         readonly accessKeyLabel: string;
@@ -367,8 +380,8 @@ export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(
         _bindTemplate(template: HTMLTemplateElement, instanceBinding?: boolean): import("../../lib/@polymer/polymer/interfaces.js").TemplateInfo;
         _removeBoundDom(dom: import("../../lib/@polymer/polymer/interfaces.js").StampedTemplate): void;
         _addMethodEventListenerToNode(node: EventTarget, eventName: string, methodName: string, context?: any): Function;
-        _addEventListenerToNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
-        _removeEventListenerFromNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
+        _addEventListenerToNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
+        _removeEventListenerFromNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
         _definePropertyAccessor: ((property: string, readOnly?: boolean) => void) & ((property: string, readOnly?: boolean) => void);
         _serializeValue: ((value: any) => string) & ((value: any) => string);
         _deserializeValue: ((value: string, type?: any) => any) & ((value: string, type?: any) => any);

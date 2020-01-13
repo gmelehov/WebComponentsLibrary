@@ -1,57 +1,18 @@
 import { PolymerElement } from '../../lib/@polymer/polymer/polymer-element.js';
-import { AnyConstructor } from '../Interfaces/interfaces.js';
-/**
- * Добавляет элементу функциональность drag-and-drop
- * @polymer
- * @mixinFunction
- */
-export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(base: U) => {
+import { ITargeterReady } from '../Interfaces/targeting.js';
+import { Targeter } from '../Classes/Targeter.js';
+declare const ZIconButton_base: {
     new (...input: any[]): {
         connectedCallback(): void;
-        disconnectedCallback(): void;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
-        handleTrack(e: CustomEvent<any>): void;
-        /**
-         * Обработчик стадии start события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleStartState(elem: any): void;
-        /**
-         * Обработчик стадии track события track
-         * @private
-         * @param e событие track
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleTrackState(e: CustomEvent<any>, elem: any): void;
-        /**
-         * Обработчик стадии end события track
-         * @private
-         * @param elem элемент, сгенерировавший событие track
-         */
-        _doHandleEndState(elem: any): void;
-        _createDraggingStyles(): void;
-        left: number;
-        /**
-         * Обработчик события track.
-         * @param e событие track
-         */
-        top: number;
-        width: number;
-        height: number;
-        hmin: number;
-        hmax: number;
-        wmin: number;
-        wmax: number;
-        _updateMaxSizesFromViewport(): void;
-        _initStylesFromProps(): void;
-        _updatePropsFromStyles(): void;
-        updateTopLeft(top: number, left: number): void;
-        updateWidthHeight(width: number, height: number): void;
-        handleWindowResize(e: Event): void;
+        disabled: boolean;
+        noTap: boolean;
+        href: string;
+        triggers: string;
+        targeter: Targeter;
+        disabledChanged(newVal: boolean, oldVal: boolean): void;
+        triggersChanged(now: string, before: string): void;
+        exec(): void;
+        gotoHref(): void;
         accessKey: string;
         readonly accessKeyLabel: string;
         autocapitalize: string;
@@ -367,8 +328,8 @@ export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(
         _bindTemplate(template: HTMLTemplateElement, instanceBinding?: boolean): import("../../lib/@polymer/polymer/interfaces.js").TemplateInfo;
         _removeBoundDom(dom: import("../../lib/@polymer/polymer/interfaces.js").StampedTemplate): void;
         _addMethodEventListenerToNode(node: EventTarget, eventName: string, methodName: string, context?: any): Function;
-        _addEventListenerToNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
-        _removeEventListenerFromNode: ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void) & ((node: EventTarget, eventName: string, handler: (p0: Event) => void) => void);
+        _addEventListenerToNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
+        _removeEventListenerFromNode(node: EventTarget, eventName: string, handler: (p0: Event) => void): void;
         _definePropertyAccessor: ((property: string, readOnly?: boolean) => void) & ((property: string, readOnly?: boolean) => void);
         _serializeValue: ((value: any) => string) & ((value: any) => string);
         _deserializeValue: ((value: string, type?: any) => any) & ((value: string, type?: any) => any);
@@ -385,5 +346,67 @@ export declare const DraggableMixin: <U extends AnyConstructor<PolymerElement>>(
         _attributeToProperty(attribute: string, value: string, type?: any): void;
         _propertyToAttribute(property: string, attribute?: string, value?: any): void;
         _valueToNodeAttribute(node: Element, value: any, attribute: string): void;
+        disconnectedCallback(): void;
     };
-} & U;
+    execDelay: number;
+    hrefDelay: number;
+} & typeof PolymerElement;
+/**
+ * Кнопка-иконка
+ * @customElement
+ * @polymer
+ */
+export declare class ZIconButton extends ZIconButton_base implements ITargeterReady {
+    private static get _styleTemplate();
+    private static get _htmlTemplate();
+    static get template(): HTMLTemplateElement;
+    constructor();
+    connectedCallback(): void;
+    disconnectedCallback(): void;
+    color: string;
+    aIcon: string;
+    aColor: string;
+    iIcon: string;
+    iColor: string;
+    /** Состояние элемента "отмечено/не отмечено" */
+    active: boolean;
+    /** Визуальные размеры кнопки */
+    size: number;
+    hide: boolean;
+    /** Основные свойства элемента */
+    get details(): {
+        id: string;
+        color: string;
+        aIcon: string;
+        aColor: string;
+        iIcon: string;
+        iColor: string;
+        active: boolean;
+        size: number;
+        disabled: boolean;
+        href: string;
+        triggers: string;
+        targeter: Targeter;
+    };
+    /**
+     * Обработчик клика мышкой
+     * Генерирует событие button-activated
+     * @param e событие click
+     * @emits button-activated
+     */
+    handleClick(e: MouseEvent): void;
+    /**
+     * Обозреватель изменения свойства active
+     * @param newActive новое значение свойства
+     * @param oldActive предыдущее значение свойства
+     */
+    activeChanged(newActive: boolean, oldActive: boolean): void;
+    /**
+     * Обозреватель изменения цвета обеих иконок
+     * @param acolor новое значение цвета для иконки, соответствующей активному состоянию элемента
+     * @param icolor новое значение цвета для иконки, соответствующей неактивному состоянию элемента
+     * @param active новое состояние элемента
+     */
+    propsChanged(acolor: string, icolor: string, active: boolean): void;
+}
+export {};
